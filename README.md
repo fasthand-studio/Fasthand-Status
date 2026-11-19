@@ -77,6 +77,8 @@ Authentication alone does not grant administrative access. Every admin request m
 
 The admin area is protected by middleware, re-checked inside server actions, and backed by PostgreSQL RLS. There is no public registration, password-reset interface or non-functional social login.
 
+The Kotlin Android companion app **Fasty Alert** lives in [`fasty-alert/`](fasty-alert/README.md). It receives automated outage and recovery notifications through Fast Notifications. Configure its server-side API key at `/admin/alerts` after applying migration `0005_fasty_alert.sql`.
+
 ## 03 / Monitoring architecture
 
 ```text
@@ -203,6 +205,7 @@ Execute these files in order using **Supabase → SQL Editor**.
 | 02 | `0002_seed.sql` | Starting groups, services and verified monitor |
 | 03 | `0003_secure_checks.sql` | Private raw check results and daily aggregate views |
 | 04 | `0004_public_monitor_status.sql` | Public monitor-status view |
+| 05 | `0005_fasty_alert.sql` | Server-only notification key for Fasty Alert |
 
 The seed migration uses `ON CONFLICT DO NOTHING`. It can be reapplied without duplicating the starting records. It does not create an administrator.
 
@@ -245,7 +248,7 @@ The service-role key must remain server-side. Never place it in a `NEXT_PUBLIC_`
 ### First installation
 
 1. Create a Supabase project and collect the project URL, anon key and service-role key.
-2. Apply migrations `0001_init.sql` through `0004_public_monitor_status.sql` in order.
+2. Apply migrations `0001_init.sql` through `0005_fasty_alert.sql` in order.
 3. Create an administrator through Supabase Authentication.
 4. Add the existing user to the allowlist using `npm run grant-admin -- you@example.com`.
 5. Set the Supabase Site URL to `https://status.fasthandstudio.asia`.

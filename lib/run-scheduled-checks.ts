@@ -1,6 +1,7 @@
 import { createServiceClient } from './supabase/admin';
 import { pruneOldChecks, runMonitorCheck } from './monitoring';
 import type { Monitor } from './types';
+import { sendFastyAlert } from './fast-notifications';
 
 export interface ScheduledCheckResult {
   checksRun: number;
@@ -50,6 +51,22 @@ export async function runScheduledChecks({
     try {
       const result = await runMonitorCheck(client, monitor);
       if (!result.outcome.ok) failures += 1;
+
+      if (result.incidentId && (result.automation.action === 'open' || result.automation.action === 'resolve')) {
+        const recovered = result.automation.action === 'resolve';
+        try {
+          await sendFastyAlert(client, {
+            title: recovered ? `Recovered: ${monitor.name}` : `Outage: ${monitor.name}`,
+            body: recovered
+              ? `${monitor.name} passed its recovery checks and the incident is resolved.`
+              : `${monitor.name} failed its configured checks. Open the status dashboard for details.`,
+            incidentId: result.incidentId,
+            state: recovered ? 'recovered' : 'outage',
+          });
+        } catch (caught) {
+          console.error(`[ALERT] ${monitor.name}: ${caught instanceof Error ? caught.message : 'notification failed'}`);
+        }
+      }
 
       const status = result.outcome.statusCode ?? 'no response';
       console.log(

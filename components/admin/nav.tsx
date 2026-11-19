@@ -11,6 +11,7 @@ const ITEMS = [
   { href: '/admin/groups', label: 'Groups' },
   { href: '/admin/monitors', label: 'Monitors' },
   { href: '/admin/maintenance', label: 'Maintenance' },
+  { href: '/admin/alerts', label: 'Fasty Alert' },
 ];
 
 export function AdminNav() {
