@@ -10,6 +10,7 @@ export interface FastyAlertEvent {
   entityId: string;
   event: string;
   state: 'outage' | 'recovered' | 'info';
+  severity: 'critical' | 'major' | 'minor' | 'none' | 'info' | 'recovered';
 }
 
 export async function sendFastyAlert(
@@ -38,6 +39,7 @@ export async function sendFastyAlert(
         entityId: event.entityId,
         event: event.event,
         state: event.state,
+        severity: event.severity,
         sound: 'alarm',
       },
     }),

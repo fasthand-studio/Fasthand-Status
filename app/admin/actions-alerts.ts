@@ -48,6 +48,7 @@ export async function sendIncidentAlertAction(_state: ActionState, formData: For
       title: `${incident.impact === 'critical' ? 'Critical' : incident.impact === 'major' ? 'Major' : 'Incident'}: ${incident.title}`,
       body: 'An active incident needs attention. Open the operations desk for details and updates.',
       state: 'outage',
+      severity: incident.impact === 'critical' || incident.impact === 'major' || incident.impact === 'minor' ? incident.impact : 'none',
     });
     return succeeded('Alert sent to the Fasty Alert account.');
   } catch (caught) {
@@ -79,6 +80,7 @@ export async function sendMaintenanceAlertAction(_state: ActionState, formData: 
       title: `Maintenance ${window.status === 'in_progress' ? 'in progress' : 'scheduled'}: ${window.title}`,
       body: window.body || 'Open the operations desk for the maintenance schedule and details.',
       state: 'info',
+      severity: 'info',
     });
     return succeeded('Maintenance alert sent to the Fasty Alert account.');
   } catch (caught) {

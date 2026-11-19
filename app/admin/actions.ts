@@ -86,6 +86,11 @@ function incidentHeading(impact: string) {
   return 'Incident';
 }
 
+function alertSeverity(impact: string): 'critical' | 'major' | 'minor' | 'none' {
+  if (impact === 'critical' || impact === 'major' || impact === 'minor') return impact;
+  return 'none';
+}
+
 function maintenanceAction(status: string, previousStatus?: string) {
   if (previousStatus === status) return 'updated';
   if (status === 'completed') return 'completed';
@@ -172,6 +177,7 @@ export async function createIncidentAction(_state: ActionState, formData: FormDa
     title: resolvedAtCreation ? `${incidentHeading(parsed.data.impact)} resolved: ${parsed.data.title}` : `${incidentHeading(parsed.data.impact)} opened: ${parsed.data.title}`,
     body: excerpt(parsed.data.body) || (resolvedAtCreation ? 'The incident was created as resolved.' : 'A new incident was opened.'),
     state: resolvedAtCreation ? 'recovered' : 'outage',
+    severity: resolvedAtCreation ? 'recovered' : alertSeverity(parsed.data.impact),
   });
 
   revalidateIncident(incidentId);
@@ -228,6 +234,7 @@ export async function updateIncidentAction(_state: ActionState, formData: FormDa
     title: `${incidentHeading(parsed.data.impact)} updated: ${parsed.data.title}`,
     body: 'Incident details or affected services changed. Open the operations desk for details.',
     state: 'info',
+    severity: alertSeverity(parsed.data.impact),
   });
 
   revalidateIncident(incidentId);
@@ -249,7 +256,7 @@ export async function postIncidentUpdateAction(_state: ActionState, formData: Fo
 
   const { data: current, error: readError } = await auth.session.supabase
     .from('incidents')
-    .select('id, status, resolved_at')
+    .select('id, status, resolved_at, impact')
     .eq('id', incidentId)
     .maybeSingle();
 
@@ -292,6 +299,7 @@ export async function postIncidentUpdateAction(_state: ActionState, formData: Fo
     title: isResolved ? 'Incident resolved' : `Incident update: ${parsed.data.status}`,
     body: excerpt(parsed.data.body) || (isResolved ? 'The incident has been resolved.' : 'There is a new incident update.'),
     state: isResolved ? 'recovered' : 'info',
+    severity: isResolved ? 'recovered' : alertSeverity(current.impact as string),
   });
 
   revalidateIncident(incidentId);
@@ -321,6 +329,7 @@ export async function deleteIncidentAction(_state: ActionState, formData: FormDa
     title: `${incidentHeading(data[0].impact)} removed: ${data[0].title}`,
     body: 'An incident was removed from the operations desk.',
     state: 'info',
+    severity: alertSeverity(data[0].impact),
   });
 
   revalidateIncident(incidentId);
@@ -765,6 +774,7 @@ export async function createMaintenanceAction(_state: ActionState, formData: For
     title: `Maintenance ${maintenanceVerb(action)}: ${parsed.data.title}`,
     body: excerpt(parsed.data.body) || `A maintenance window was ${maintenanceVerb(action)}.`,
     state: action === 'completed' ? 'recovered' : 'info',
+    severity: action === 'completed' ? 'recovered' : 'info',
   });
 
   revalidateStatusPages();
@@ -830,6 +840,7 @@ export async function updateMaintenanceAction(_state: ActionState, formData: For
     title: `Maintenance ${maintenanceVerb(action)}: ${parsed.data.title}`,
     body: excerpt(parsed.data.body) || `A maintenance window was ${maintenanceVerb(action)}.`,
     state: action === 'completed' ? 'recovered' : 'info',
+    severity: action === 'completed' ? 'recovered' : 'info',
   });
 
   revalidateStatusPages();
@@ -861,6 +872,7 @@ export async function deleteMaintenanceAction(_state: ActionState, formData: For
     title: `Maintenance removed: ${data[0].title}`,
     body: 'A maintenance window was removed from the operations desk.',
     state: 'info',
+    severity: 'info',
   });
 
   revalidateStatusPages();

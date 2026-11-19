@@ -64,6 +64,7 @@ export async function runScheduledChecks({
               ? `${monitor.name} passed its recovery checks and the incident is resolved.`
               : `${monitor.name} failed its configured checks. Open the status dashboard for details.`,
             state: recovered ? 'recovered' : 'outage',
+            severity: recovered ? 'recovered' : monitor.incident_impact,
           });
         } catch (caught) {
           console.error(`[ALERT] ${monitor.name}: ${caught instanceof Error ? caught.message : 'notification failed'}`);

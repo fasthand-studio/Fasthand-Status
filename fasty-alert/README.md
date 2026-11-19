@@ -5,7 +5,7 @@ Android alert companion for FastHand Status, built in Kotlin with Jetpack Compos
 ## What it does
 
 - Registers this Android installation with Fast Notifications for the fixed account `fuoahgfiasgfiasfidhgafoahgfhacjakljdfhbcuasocgsadfga@fasthandstudio.asia`.
-- Keeps a foreground connection to the notification service's WebSocket stream and fetches queued notifications when it reconnects.
+- Uses a silent WebSocket connection while Android keeps the app process alive, and a system-scheduled pending-message sync as a fallback.
 - Displays outage and recovery notices on the high-importance **Outage alerts** channel, with the bundled `alert_tone.wav` sound.
 - Acknowledges a queued notification only after Android has accepted it for display.
 - Does not contain or receive the Fast Notifications API key. The status server stores and uses that key.
@@ -14,7 +14,9 @@ The app's notification sound is selected when Android creates the notification c
 
 ## Build
 
-Open this directory in Android Studio (JDK 17 or newer) and let Gradle sync, then run the `app` configuration on a device running Android 8.0 or newer. Android 13+ asks for notification permission. Tap **Connect alerts** and keep the app's alert connection enabled. Android battery controls may affect long-running background connections on some devices.
+Open this directory in Android Studio (JDK 17 or newer) and let Gradle sync, then run the `app` configuration on a device running Android 8.0 or newer. Android 13+ asks for notification permission. The app has no ongoing connection notification. Android may suspend a silent WebSocket; WorkManager checks the queued inbox periodically, with a 15-minute minimum interval and additional delay possible under battery optimization. For consistently immediate delivery while the app is backgrounded, the notification service needs a push transport such as FCM.
+
+Alert history is stored in a local SQLite database and expires using the selected TTL (7, 30, 90, or 365 days). Incident impact follows the status site values: **None**, **Minor**, **Major**, and **Critical**. None uses an informational sound, each impact level has its own sound, and recovery uses a separate sound. Android lets users change or mute each notification channel in system settings; its alarm volume controls the critical alarm level.
 
 ## Backend setup
 
