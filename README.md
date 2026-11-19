@@ -77,7 +77,7 @@ Authentication alone does not grant administrative access. Every admin request m
 
 The admin area is protected by middleware, re-checked inside server actions, and backed by PostgreSQL RLS. There is no public registration, password-reset interface or non-functional social login.
 
-The Kotlin Android companion app **Fasty Alert** lives in [`fasty-alert/`](fasty-alert/README.md). It receives automated outage and recovery notifications through Fast Notifications. Configure its server-side API key at `/admin/alerts` after applying migration `0005_fasty_alert.sql`.
+The Kotlin Android companion app **Fasty Alert** lives in [`fasty-alert/`](fasty-alert/README.md). It receives incident and maintenance lifecycle notifications through Fast Notifications. Configure its server-side API key at `/admin/alerts` after applying migration `0005_fasty_alert.sql`; that page can also resend alerts for active incidents or scheduled maintenance.
 
 ## 03 / Monitoring architecture
 

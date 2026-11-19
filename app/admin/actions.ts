@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { getAdminContext, type AdminContext } from '@/lib/auth';
 import { failed, type ActionState } from '@/lib/action-state';
 import { runMonitorCheck } from '@/lib/monitoring';
+import { sendFastyAlert, type FastyAlertEvent } from '@/lib/fast-notifications';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
 import { createServiceClient } from '@/lib/supabase/admin';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
@@ -64,6 +65,37 @@ function revalidateIncident(incidentId: string) {
   revalidateStatusPages();
   revalidatePath('/admin/incidents');
   revalidatePath(`/admin/incidents/${incidentId}`);
+}
+
+function excerpt(value: string, length = 240) {
+  return value.replace(/\s+/g, ' ').trim().slice(0, length);
+}
+
+async function notifyOperationsEvent(event: FastyAlertEvent) {
+  try {
+    await sendFastyAlert(createServiceClient(), event);
+  } catch (caught) {
+    console.error(`[ALERT] ${event.entityType} ${event.entityId} (${event.event}): ${caught instanceof Error ? caught.message : 'unknown notification error'}`);
+  }
+}
+
+function incidentHeading(impact: string) {
+  if (impact === 'critical') return 'Critical incident';
+  if (impact === 'major') return 'Major incident';
+  if (impact === 'minor') return 'Minor incident';
+  return 'Incident';
+}
+
+function maintenanceAction(status: string, previousStatus?: string) {
+  if (previousStatus === status) return 'updated';
+  if (status === 'completed') return 'completed';
+  if (status === 'cancelled') return 'cancelled';
+  if (status === 'in_progress') return 'started';
+  return previousStatus ? 'rescheduled' : 'scheduled';
+}
+
+function maintenanceVerb(action: string) {
+  return ({ scheduled: 'scheduled', rescheduled: 'rescheduled', started: 'started', completed: 'completed', cancelled: 'cancelled', deleted: 'removed', updated: 'updated' } as Record<string, string>)[action] ?? action;
 }
 
 // ---------------------------------------------------------------------------
@@ -132,6 +164,16 @@ export async function createIncidentAction(_state: ActionState, formData: FormDa
     }
   }
 
+  const resolvedAtCreation = parsed.data.status === 'resolved';
+  await notifyOperationsEvent({
+    entityType: 'incident',
+    entityId: incidentId,
+    event: resolvedAtCreation ? 'resolved' : 'created',
+    title: resolvedAtCreation ? `${incidentHeading(parsed.data.impact)} resolved: ${parsed.data.title}` : `${incidentHeading(parsed.data.impact)} opened: ${parsed.data.title}`,
+    body: excerpt(parsed.data.body) || (resolvedAtCreation ? 'The incident was created as resolved.' : 'A new incident was opened.'),
+    state: resolvedAtCreation ? 'recovered' : 'outage',
+  });
+
   revalidateIncident(incidentId);
   redirect(`/admin/incidents/${incidentId}?created=1`);
 }
@@ -178,6 +220,15 @@ export async function updateIncidentAction(_state: ActionState, formData: FormDa
     );
     if (linkError) return failed(dbMessage(linkError, 'Details saved, but affected services could not be linked.'));
   }
+
+  await notifyOperationsEvent({
+    entityType: 'incident',
+    entityId: incidentId,
+    event: 'updated',
+    title: `${incidentHeading(parsed.data.impact)} updated: ${parsed.data.title}`,
+    body: 'Incident details or affected services changed. Open the operations desk for details.',
+    state: 'info',
+  });
 
   revalidateIncident(incidentId);
   redirect(`/admin/incidents/${incidentId}?saved=1`);
@@ -233,6 +284,16 @@ export async function postIncidentUpdateAction(_state: ActionState, formData: Fo
     return failed(dbMessage(updateError, 'Could not save the update, so the status change was rolled back.'));
   }
 
+  const isResolved = parsed.data.status === 'resolved';
+  await notifyOperationsEvent({
+    entityType: 'incident',
+    entityId: incidentId,
+    event: isResolved ? 'resolved' : 'status_updated',
+    title: isResolved ? 'Incident resolved' : `Incident update: ${parsed.data.status}`,
+    body: excerpt(parsed.data.body) || (isResolved ? 'The incident has been resolved.' : 'There is a new incident update.'),
+    state: isResolved ? 'recovered' : 'info',
+  });
+
   revalidateIncident(incidentId);
   redirect(`/admin/incidents/${incidentId}?posted=1`);
 }
@@ -248,10 +309,19 @@ export async function deleteIncidentAction(_state: ActionState, formData: FormDa
     .from('incidents')
     .delete()
     .eq('id', incidentId)
-    .select('id');
+    .select('id, title, impact');
 
   if (error) return failed(dbMessage(error, 'Could not delete the incident.'));
   if (!data || data.length === 0) return failed('That incident no longer exists.');
+
+  await notifyOperationsEvent({
+    entityType: 'incident',
+    entityId: incidentId,
+    event: 'deleted',
+    title: `${incidentHeading(data[0].impact)} removed: ${data[0].title}`,
+    body: 'An incident was removed from the operations desk.',
+    state: 'info',
+  });
 
   revalidateIncident(incidentId);
   redirect('/admin/incidents?deleted=1');
@@ -687,6 +757,16 @@ export async function createMaintenanceAction(_state: ActionState, formData: For
     }
   }
 
+  const action = maintenanceAction(parsed.data.status);
+  await notifyOperationsEvent({
+    entityType: 'maintenance',
+    entityId: maintenanceId,
+    event: action,
+    title: `Maintenance ${maintenanceVerb(action)}: ${parsed.data.title}`,
+    body: excerpt(parsed.data.body) || `A maintenance window was ${maintenanceVerb(action)}.`,
+    state: action === 'completed' ? 'recovered' : 'info',
+  });
+
   revalidateStatusPages();
   revalidatePath('/admin/maintenance');
   redirect(`/admin/maintenance/${maintenanceId}?created=1`);
@@ -705,6 +785,14 @@ export async function updateMaintenanceAction(_state: ActionState, formData: For
   const start = parseUtcInput(parsed.data.scheduled_start);
   const end = parseUtcInput(parsed.data.scheduled_end);
   if (!start || !end) return failed('Enter a valid start and end time.');
+
+  const { data: previous, error: previousError } = await auth.session.supabase
+    .from('maintenance_windows')
+    .select('status')
+    .eq('id', maintenanceId)
+    .maybeSingle();
+  if (previousError) return failed(dbMessage(previousError, 'Could not read the maintenance window.'));
+  if (!previous) return failed('That maintenance window no longer exists.');
 
   const { error } = await auth.session.supabase
     .from('maintenance_windows')
@@ -734,6 +822,16 @@ export async function updateMaintenanceAction(_state: ActionState, formData: For
     if (linkError) return failed(dbMessage(linkError, 'Saved, but affected services could not be linked.'));
   }
 
+  const action = maintenanceAction(parsed.data.status, previous.status as string);
+  await notifyOperationsEvent({
+    entityType: 'maintenance',
+    entityId: maintenanceId,
+    event: action,
+    title: `Maintenance ${maintenanceVerb(action)}: ${parsed.data.title}`,
+    body: excerpt(parsed.data.body) || `A maintenance window was ${maintenanceVerb(action)}.`,
+    state: action === 'completed' ? 'recovered' : 'info',
+  });
+
   revalidateStatusPages();
   revalidatePath('/admin/maintenance');
   revalidatePath(`/admin/maintenance/${maintenanceId}`);
@@ -751,10 +849,19 @@ export async function deleteMaintenanceAction(_state: ActionState, formData: For
     .from('maintenance_windows')
     .delete()
     .eq('id', maintenanceId)
-    .select('id');
+    .select('id, title');
 
   if (error) return failed(dbMessage(error, 'Could not delete the maintenance window.'));
   if (!data || data.length === 0) return failed('That maintenance window no longer exists.');
+
+  await notifyOperationsEvent({
+    entityType: 'maintenance',
+    entityId: maintenanceId,
+    event: 'deleted',
+    title: `Maintenance removed: ${data[0].title}`,
+    body: 'A maintenance window was removed from the operations desk.',
+    state: 'info',
+  });
 
   revalidateStatusPages();
   revalidatePath('/admin/maintenance');

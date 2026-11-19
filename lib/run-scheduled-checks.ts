@@ -56,11 +56,13 @@ export async function runScheduledChecks({
         const recovered = result.automation.action === 'resolve';
         try {
           await sendFastyAlert(client, {
+            entityType: 'incident',
+            entityId: result.incidentId,
+            event: recovered ? 'resolved' : 'opened',
             title: recovered ? `Recovered: ${monitor.name}` : `Outage: ${monitor.name}`,
             body: recovered
               ? `${monitor.name} passed its recovery checks and the incident is resolved.`
               : `${monitor.name} failed its configured checks. Open the status dashboard for details.`,
-            incidentId: result.incidentId,
             state: recovered ? 'recovered' : 'outage',
           });
         } catch (caught) {

@@ -22,7 +22,7 @@ Open this directory in Android Studio (JDK 17 or newer) and let Gradle sync, the
 2. Open `/admin/alerts` and save the Fast Notifications API key.
 3. Install Fasty Alert and grant notification permission. Its first connection registers the device to the fixed recipient email.
 
-The existing status monitor runner sends a push when its failure threshold opens an automated incident and another when the recovery threshold resolves it. A missing API key leaves monitor runs healthy and logs a skipped alert. A failed push is logged without undoing the stored check or incident.
+The status project sends alerts when manual or automated incidents are created, edited, updated, resolved, or deleted. It also alerts on maintenance scheduling, rescheduling, start, completion, cancellation, edits, and deletion. Monitor-triggered incident opening and recovery events are included. Push failures never undo a successfully stored status change. `/admin/alerts` shows whether the key is configured and provides catch-up actions for active incidents and scheduled or in-progress maintenance windows.
 
 ## Service endpoints used
 

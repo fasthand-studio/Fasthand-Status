@@ -3,9 +3,18 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 const ENDPOINT = 'https://fastnotifications.fasthand.workers.dev/v1/push';
 export const FASTY_ALERT_EMAIL = 'fuoahgfiasgfiasfidhgafoahgfhacjakljdfhbcuasocgsadfga@fasthandstudio.asia';
 
+export interface FastyAlertEvent {
+  title: string;
+  body: string;
+  entityType: 'incident' | 'maintenance';
+  entityId: string;
+  event: string;
+  state: 'outage' | 'recovered' | 'info';
+}
+
 export async function sendFastyAlert(
   client: SupabaseClient,
-  event: { title: string; body: string; incidentId: string; state: 'outage' | 'recovered' },
+  event: FastyAlertEvent,
 ): Promise<void> {
   const { data, error } = await client
     .from('fasty_alert_settings')
@@ -14,10 +23,7 @@ export async function sendFastyAlert(
     .maybeSingle();
   if (error) throw new Error(`Could not load Fasty Alert settings: ${error.message}`);
   const apiKey = (data?.api_key as string | undefined)?.trim();
-  if (!apiKey) {
-    console.warn('Fasty Alert is not configured; skipping notification. Set its API key in /admin/alerts.');
-    return;
-  }
+  if (!apiKey) throw new Error('Fast Notifications API key is not configured. Save it in /admin/alerts.');
 
   const response = await fetch(ENDPOINT, {
     method: 'POST',
@@ -26,9 +32,19 @@ export async function sendFastyAlert(
       email: FASTY_ALERT_EMAIL,
       title: event.title,
       body: event.body,
-      data: { kind: 'fasty-alert', incidentId: event.incidentId, state: event.state, sound: 'alarm' },
+      data: {
+        kind: 'fasty-alert',
+        entityType: event.entityType,
+        entityId: event.entityId,
+        event: event.event,
+        state: event.state,
+        sound: 'alarm',
+      },
     }),
     signal: AbortSignal.timeout(10_000),
   });
-  if (!response.ok) throw new Error(`Fasty Alert push failed (${response.status}).`);
+  const result = await response.json().catch(() => null) as { success?: boolean; status?: string } | null;
+  if (!response.ok || result?.success !== true) {
+    throw new Error(`Fasty Alert push failed (${response.status})${result?.status ? `: ${result.status}` : ''}.`);
+  }
 }
