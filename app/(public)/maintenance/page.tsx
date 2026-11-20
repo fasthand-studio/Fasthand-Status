@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 
 function EmptyRow({ children }: { children: ReactNode }) {
   return (
-    <div className="fh-card border border-line bg-surface px-3.5 py-2.5 text-[15px] text-muted">
+    <div className="fh-card bg-surface px-3.5 py-2.5 text-[15px] text-muted">
       {children}
     </div>
   );
@@ -100,7 +100,7 @@ export default async function MaintenancePage() {
       <section className="mt-5">
         <SectionHeading title="Scheduled" />
         {openWindows.length > 0 ? (
-          <div className="overflow-hidden fh-panel border border-line bg-surface">
+          <div className="overflow-hidden fh-panel bg-surface">
             {openWindows.map((window) => (
               <MaintenanceRow key={window.id} window={window} affected={names(window)} now={now} />
             ))}
@@ -116,7 +116,7 @@ export default async function MaintenancePage() {
       <section className="mt-6">
         <SectionHeading title="Past windows" />
         {pastWindows.length > 0 ? (
-          <div className="overflow-hidden fh-panel border border-line bg-surface">
+          <div className="overflow-hidden fh-panel bg-surface">
             {pastWindows.map((window) => (
               <MaintenanceRow key={window.id} window={window} affected={names(window)} now={now} />
             ))}

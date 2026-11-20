@@ -54,7 +54,7 @@ export function LoginForm() {
         />
       </div>
 
-      <SubmitButton pendingLabel="Signing in…" className="w-full">
+      <SubmitButton pendingLabel="Signing in…" className="fh-btn-lg w-full">
         Sign in
       </SubmitButton>
 

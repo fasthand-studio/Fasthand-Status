@@ -78,7 +78,7 @@ export default async function AdminMaintenancePage({
                 </div>
                 <p className="mt-2 font-medium text-ink">{window.title}</p>
                 <p className="mt-1 text-[15px] text-muted">{formatWindow(window.scheduled_start, window.scheduled_end)}</p>
-                <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3">
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-2 pt-3">
                   <Link href={`/admin/maintenance/${window.id}`} className={`${linkClass} text-[15px]`}>
                     Open window
                   </Link>
@@ -107,7 +107,7 @@ export default async function AdminMaintenancePage({
           <div className={`${adminCardClass} overflow-x-auto`}>
             <table className="w-full min-w-[900px] text-left text-[15px]">
               <thead>
-                <tr className="border-b border-line font-sans text-[14px] text-muted">
+                <tr className="font-sans text-[14px] text-muted">
                   <th className="px-3 py-2 font-medium">Window</th>
                   <th className="px-3 py-2 font-medium">Status</th>
                   <th className="px-3 py-2 font-medium">Scheduled</th>
@@ -115,9 +115,9 @@ export default async function AdminMaintenancePage({
                   <th className="px-3 py-2" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line">
+              <tbody className="">
                 {past.map((window) => (
-                  <tr key={window.id} className="transition hover:bg-ink/[0.03]">
+                  <tr key={window.id} className="transition-colors hover:bg-surface-soft">
                     <td className="px-3 py-2 font-medium text-ink/85">{window.title}</td>
                     <td className="px-3 py-2">
                       <AdminMaintenanceBadge status={window.status} />

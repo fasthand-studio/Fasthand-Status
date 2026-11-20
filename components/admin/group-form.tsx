@@ -2,7 +2,7 @@ import type { ActionState } from '@/lib/action-state';
 import type { ServiceGroup } from '@/lib/types';
 import { ActionForm } from './action-form';
 import { SubmitButton } from './submit-button';
-import { adminCardClass, adminInputClass, Field } from './ui';
+import { adminCardClass, adminInputClass, adminTextareaClass, Field } from './ui';
 
 export function GroupForm({
   action,
@@ -52,7 +52,7 @@ export function GroupForm({
           rows={3}
           defaultValue={group?.description ?? ''}
           maxLength={400}
-          className={adminInputClass}
+          className={adminTextareaClass}
         />
       </Field>
 
@@ -66,7 +66,7 @@ export function GroupForm({
         />
       </Field>
 
-      <div className="flex justify-end border-t border-line pt-4">
+      <div className="flex justify-end pt-4">
         <SubmitButton pendingLabel="Saving…">{submitLabel}</SubmitButton>
       </div>
     </ActionForm>

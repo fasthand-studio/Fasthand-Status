@@ -79,7 +79,7 @@ export function DraftWriter({
   const ready = notes.trim().length >= 12;
 
   return (
-    <div className="fh-r-sm border border-line bg-paper px-2.5 py-2">
+    <div className="fh-r-sm bg-surface-soft px-2.5 py-2">
       <label htmlFor="draft-notes" className={adminLabelClass}>
         <span>{PROMPT[mode].label}</span>
         <span className="text-[14px] font-normal text-ink/70">Required</span>
@@ -90,14 +90,14 @@ export function DraftWriter({
         value={notes}
         onChange={(event) => setNotes(event.target.value)}
         placeholder={PROMPT[mode].placeholder}
-        className="mt-1.5 w-full fh-r-sm border border-line bg-surface px-2.5 py-2 text-[15px] leading-relaxed text-ink placeholder:text-muted/70 transition-colors focus:border-primary focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        className="mt-1.5 w-full fh-field-area border border-line bg-surface px-2.5 py-2 text-[15px] leading-relaxed text-ink placeholder:text-muted/70 focus:border-primary focus:outline-none"
       />
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <button
           type="button"
           onClick={write}
           disabled={pending || !ready}
-          className={cn(secondaryButtonClass, 'px-2.5 text-[15px]')}
+          className={secondaryButtonClass}
         >
           <PencilIcon className="h-3.5 w-3.5" />
           {pending ? 'Drafting…' : 'Draft the copy'}

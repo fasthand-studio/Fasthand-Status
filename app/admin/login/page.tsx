@@ -42,7 +42,7 @@ export default async function AdminLoginPage({
         <section className="flex flex-col justify-between px-4 py-6 sm:px-6 lg:py-8">
           <div>
             <Brand label="Ops" />
-            <h1 className="mt-6 max-w-md text-[32px] font-semibold leading-[1.12] tracking-[-0.03em]">
+            <h1 className="mt-6 max-w-md text-[26px] font-semibold leading-tight tracking-[-0.02em]">
               The desk behind the status page.
             </h1>
             <p className="mt-1.5 max-w-md text-[15px] leading-relaxed text-muted">
@@ -59,7 +59,7 @@ export default async function AdminLoginPage({
               ['Verify', 'Row Level Security on every write.'],
               ['Access', 'Sign-in limited to the admin allowlist.'],
             ].map(([headline, copy]) => (
-              <div key={headline} className="fh-r-sm border border-line bg-paper/60 p-3">
+              <div key={headline} className="fh-r-sm bg-surface-soft p-3">
                 <p className="text-[15px] font-semibold">{headline}</p>
                 <p className="mt-0.5 text-[15px] leading-relaxed text-muted">{copy}</p>
               </div>
@@ -67,7 +67,7 @@ export default async function AdminLoginPage({
           </div>
         </section>
 
-        <section className="flex items-center px-4 pb-8 sm:px-6 lg:border-l lg:border-line lg:py-8">
+        <section className="flex items-center bg-surface px-4 pb-8 sm:px-6 lg:py-8">
           <div className="w-full lg:mx-auto lg:max-w-sm">
             <div className="mb-4 flex items-center gap-2">
               <LockIcon className="h-4 w-4" />
@@ -103,7 +103,7 @@ export default async function AdminLoginPage({
                 <p className="text-[14px] leading-relaxed text-muted">
                   An existing admin can grant access from the repository:
                 </p>
-                <pre className="overflow-x-auto fh-r-sm border border-line bg-paper px-3 py-2 text-[15px]">
+                <pre className="overflow-x-auto fh-r-sm bg-surface-soft px-3 py-2 text-[15px]">
                   npm run grant-admin -- {context.email}
                 </pre>
                 <form action={signOutAction}>

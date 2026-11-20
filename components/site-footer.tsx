@@ -6,7 +6,7 @@ export function SiteFooter() {
   const year = new Date().getUTCFullYear();
 
   return (
-    <footer className="mt-10 border-t border-line">
+    <footer className="mt-10 bg-surface-soft">
       <div className="mx-auto max-w-[1100px] px-4 py-6 sm:px-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-sm">
@@ -33,7 +33,7 @@ export function SiteFooter() {
             <Link className="hover:text-ink" href="/admin/login">Operations desk</Link>
           </div>
         </div>
-        <div className="mt-4 flex flex-col gap-1 border-t border-line pt-3 text-[14px] text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-4 flex flex-col gap-1 pt-3 text-[14px] text-muted sm:flex-row sm:items-center sm:justify-between">
           <span>© {year} FastHand Studio</span>
           <span>All times UTC</span>
         </div>

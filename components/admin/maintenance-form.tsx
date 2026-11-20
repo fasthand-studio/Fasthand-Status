@@ -146,7 +146,7 @@ export function MaintenanceForm({
         hint="Optional. Markdown is supported; raw HTML is shown as text."
       />
 
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4">
         <p className="text-[15px] text-muted">
           Cancelled and completed windows stay in the public archive.
         </p>

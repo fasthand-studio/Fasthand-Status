@@ -182,7 +182,7 @@ export function MonitorForm({
         </Field>
       </div>
 
-      <div className="space-y-2 fh-r-sm border border-line bg-paper px-3 py-2">
+      <div className="space-y-2 fh-r-sm bg-surface-soft px-3 py-2">
         <label className="flex items-center gap-3 text-[14px] text-ink/85">
           <input
             type="checkbox"
@@ -198,7 +198,7 @@ export function MonitorForm({
         </p>
       </div>
 
-      <div className="flex justify-end border-t border-line pt-4">
+      <div className="flex justify-end pt-4">
         <SubmitButton pendingLabel="Saving…">{submitLabel}</SubmitButton>
       </div>
     </ActionForm>

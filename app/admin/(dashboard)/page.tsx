@@ -106,7 +106,7 @@ export default async function AdminOverviewPage() {
       <section className="grid gap-3 xl:grid-cols-[1.35fr_0.65fr]">
         <div className="space-y-3">
           <div className="flex items-baseline justify-between gap-3">
-            <h2 className="font-sans text-[18px] font-semibold tracking-[-0.02em]">Needs attention</h2>
+            <h2 className="font-sans text-[20px] font-semibold tracking-[-0.02em]">Needs attention</h2>
             <p className="font-sans text-[14px] text-muted">
               {attentionCount} item{attentionCount === 1 ? '' : 's'}
             </p>
@@ -125,7 +125,7 @@ export default async function AdminOverviewPage() {
                   <Link
                     key={incident.id}
                     href={`/admin/incidents/${incident.id}`}
-                    className={`${adminCardClass} block px-3 py-2 transition hover:border-ink/25`}
+                    className={`${adminCardClass} block px-3 py-2 transition-opacity hover:opacity-85`}
                   >
                     <div className="flex flex-wrap items-center gap-2">
                       <AdminStatusBadge status={incident.status} />
@@ -149,7 +149,7 @@ export default async function AdminOverviewPage() {
                 <Link
                   key={status.id}
                   href={`/admin/monitors/${status.id}`}
-                  className={`${adminCardClass} flex flex-wrap items-center justify-between gap-3 px-3 py-2 transition hover:border-ink/25`}
+                  className={`${adminCardClass} flex flex-wrap items-center justify-between gap-3 px-3 py-2 transition-opacity hover:opacity-85`}
                 >
                   <div>
                     <p className="font-medium text-ink">{status.name}</p>
@@ -168,7 +168,7 @@ export default async function AdminOverviewPage() {
                 <Link
                   key={status.id}
                   href={`/admin/monitors/${status.id}`}
-                  className={`${adminCardClass} flex flex-wrap items-center justify-between gap-3 px-3 py-2 transition hover:border-ink/25`}
+                  className={`${adminCardClass} flex flex-wrap items-center justify-between gap-3 px-3 py-2 transition-opacity hover:opacity-85`}
                 >
                   <div>
                     <p className="font-medium text-ink">{status.name}</p>
@@ -188,8 +188,8 @@ export default async function AdminOverviewPage() {
         </div>
 
         <aside className="space-y-3">
-          <h2 className="font-sans text-[18px] font-semibold tracking-[-0.02em]">Runner</h2>
-          <div className={`${adminCardClass} divide-y divide-line`}>
+          <h2 className="font-sans text-[20px] font-semibold tracking-[-0.02em]">Runner</h2>
+          <div className={adminCardClass}>
             {data.runs.length === 0 ? (
               <p className="px-3 py-2 text-[14px] text-muted">
                 No monitor runs yet. Trigger the scheduled check from the database, or run{' '}
@@ -225,7 +225,7 @@ export default async function AdminOverviewPage() {
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
-          <h2 className="font-sans text-[18px] font-semibold tracking-[-0.02em]">Monitors</h2>
+          <h2 className="font-sans text-[20px] font-semibold tracking-[-0.02em]">Monitors</h2>
           <Link href="/admin/monitors" className={linkClass}>
             Manage monitors
           </Link>
@@ -239,7 +239,7 @@ export default async function AdminOverviewPage() {
           <div className={`${adminCardClass} overflow-x-auto`}>
             <table className="w-full min-w-[760px] text-left text-[15px]">
               <thead>
-                <tr className="border-b border-line font-sans text-[14px] text-muted">
+                <tr className="font-sans text-[14px] text-muted">
                   <th className="px-3 py-2 font-medium">Monitor</th>
                   <th className="px-3 py-2 font-medium">State</th>
                   <th className="px-3 py-2 font-medium">Last check</th>
@@ -248,9 +248,9 @@ export default async function AdminOverviewPage() {
                   <th className="px-3 py-2" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line">
+              <tbody className="">
                 {data.statuses.map((status) => (
-                  <tr key={status.id} className="transition hover:bg-ink/[0.03]">
+                  <tr key={status.id} className="transition-colors hover:bg-surface-soft">
                     <td className="px-3 py-2 font-medium text-ink/85">{status.name}</td>
                     <td className="px-3 py-2">
                       <MonitorState status={status} />
@@ -280,7 +280,7 @@ export default async function AdminOverviewPage() {
       {data.recentIncidents.length > 0 ? (
         <section className="space-y-3">
           <div className="flex flex-wrap items-baseline justify-between gap-3">
-            <h2 className="font-sans text-[18px] font-semibold tracking-[-0.02em]">Recently resolved</h2>
+            <h2 className="font-sans text-[20px] font-semibold tracking-[-0.02em]">Recently resolved</h2>
             <Link href="/admin/incidents" className={linkClass}>
               All incidents
             </Link>
@@ -290,7 +290,7 @@ export default async function AdminOverviewPage() {
               <Link
                 key={incident.id}
                 href={`/admin/incidents/${incident.id}`}
-                className={`${adminCardClass} px-3 py-2 transition hover:border-ink/25`}
+                className={`${adminCardClass} px-3 py-2 transition-opacity hover:opacity-85`}
               >
                 <p className="font-medium text-ink/85">{incident.title}</p>
                 <p className="mt-1 text-[15px] text-muted">

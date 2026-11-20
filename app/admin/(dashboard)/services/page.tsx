@@ -72,7 +72,7 @@ export default async function AdminServicesPage({
         <div className={`${adminCardClass} overflow-x-auto`}>
           <table className="w-full min-w-[960px] text-left text-[15px]">
             <thead>
-              <tr className="border-b border-line font-sans text-[14px] text-muted">
+              <tr className="font-sans text-[14px] text-muted">
                 <th className="px-3 py-2 font-medium">Service</th>
                 <th className="px-3 py-2 font-medium">Group</th>
                 <th className="px-3 py-2 font-medium">Monitor</th>
@@ -82,9 +82,9 @@ export default async function AdminServicesPage({
                 <th className="px-3 py-2" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-line">
+            <tbody className="">
               {data.services.map((service) => (
-                <tr key={service.id} className="transition hover:bg-ink/[0.03]">
+                <tr key={service.id} className="transition-colors hover:bg-surface-soft">
                   <td className="px-3 py-2">
                     <p className="font-medium text-ink/85">{service.name}</p>
                     <p className="font-sans text-[14px] text-muted">{service.slug}</p>

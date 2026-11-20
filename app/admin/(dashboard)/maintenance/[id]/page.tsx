@@ -72,7 +72,7 @@ export default async function AdminMaintenanceItemPage({
           <Link
             href="/maintenance"
             target="_blank"
-            className="fh-btn border border-line bg-surface text-[15px] font-medium text-ink/85 hover:bg-ink/5"
+            className="fh-btn text-ink transition-opacity hover:opacity-85"
           >
             Public page
             <ArrowUpRightIcon className="h-3.5 w-3.5" />

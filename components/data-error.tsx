@@ -9,7 +9,7 @@ export function DataError({
   description?: string;
 }) {
   return (
-    <div className="flex flex-col items-start gap-3 fh-card border border-bad/25 bg-bad-soft/60 p-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col items-start gap-3 fh-card bg-bad-soft p-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-start gap-2.5">
         <AlertIcon className="mt-0.5 h-4 w-4 shrink-0 text-bad" />
         <div>

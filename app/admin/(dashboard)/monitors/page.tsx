@@ -125,7 +125,7 @@ export default async function AdminMonitorsPage({
                   </p>
                 ) : null}
 
-                <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-3">
+                <div className="mt-4 flex flex-wrap items-center gap-2 pt-3">
                   <InlineActionButton
                     action={runMonitorNowAction}
                     fields={{ monitor_id: monitor.id }}
@@ -138,7 +138,7 @@ export default async function AdminMonitorsPage({
                     label={monitor.enabled ? 'Pause monitor' : 'Resume monitor'}
                     pendingLabel="Working…"
                   />
-                  <Link href={`/admin/monitors/${monitor.id}`} className={`${secondaryButtonClass} px-3 py-1.5 text-[15px]`}>
+                  <Link href={`/admin/monitors/${monitor.id}`} className={secondaryButtonClass}>
                     <PlayIcon className="h-3 w-3" />
                     Check history
                   </Link>

@@ -115,14 +115,14 @@ export default async function AdminMonitorPage({
               <div className="mt-2 overflow-x-auto">
                 <table className="w-full min-w-[520px] text-left text-[15px]">
                   <thead>
-                    <tr className="border-b border-line font-sans text-[14px] text-muted">
+                    <tr className="font-sans text-[14px] text-muted">
                       <th className="py-2 pr-2 font-medium">Time</th>
                       <th className="py-2 pr-2 font-medium">Result</th>
                       <th className="py-2 pr-2 font-medium">HTTP</th>
                       <th className="py-2 pr-2 font-medium">ms</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-line">
+                  <tbody className="">
                     {recent.map((check) => (
                       <tr key={check.id}>
                         <td className="py-2 pr-2 align-top text-muted" title={formatDateTime(check.checked_at)}>
@@ -149,7 +149,7 @@ export default async function AdminMonitorPage({
             )}
 
             {recent.some((check) => check.error || check.body_excerpt) ? (
-              <div className="mt-2 space-y-2 border-t border-line pt-3">
+              <div className="mt-2 space-y-2 pt-3">
                 {recent
                   .filter((check) => check.error || check.body_excerpt)
                   .slice(0, 3)

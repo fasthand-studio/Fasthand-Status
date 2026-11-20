@@ -104,7 +104,7 @@ export default async function IncidentsPage() {
             ))}
           </div>
         ) : (
-          <div className="fh-card border border-line bg-surface px-3.5 py-2.5">
+          <div className="fh-card bg-surface px-3.5 py-2.5">
             <p className="text-[15px] text-muted">
               <span className="font-medium text-ink">No active incidents.</span>{' '}
               {resolved[0]
@@ -124,7 +124,7 @@ export default async function IncidentsPage() {
                 <h3 className="mb-1 px-1 text-[14px] font-semibold uppercase tracking-[0.05em] text-muted">
                   {month}
                 </h3>
-                <div className="overflow-hidden fh-panel border border-line bg-surface">
+                <div className="overflow-hidden fh-panel bg-surface">
                   {incidents.map((incident) => (
                     <IncidentRow
                       key={incident.id}
@@ -138,7 +138,7 @@ export default async function IncidentsPage() {
             ))}
           </div>
         ) : (
-          <div className="fh-card border border-dashed border-line bg-surface-soft px-4 py-6 text-center">
+          <div className="fh-card bg-surface-soft px-4 py-6 text-center">
             <p className="text-[15px] font-medium">Nothing resolved yet.</p>
             <p className="mt-0.5 text-[14px] text-muted">
               The archive starts when this page begins recording incidents.

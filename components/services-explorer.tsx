@@ -139,12 +139,12 @@ export function ServicesExplorer({
     <div>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
         {STATE_CELLS.map(({ state, icon: Icon, tone }) => (
-          <div key={state} className="fh-card border border-line bg-surface px-2.5 py-2">
+          <div key={state} className="fh-card bg-surface px-2.5 py-2">
             <span className="flex items-center gap-1 text-[14px] text-muted">
               <Icon className={cn('h-3 w-3 shrink-0', tone)} strokeWidth={2.4} aria-hidden="true" />
               {HEALTH_LABEL[state]}
             </span>
-            <span className={cn('fh-num mt-0.5 block text-[24px] font-medium leading-tight', tone)}>
+            <span className={cn('fh-num mt-0.5 block text-[20px] font-medium leading-tight', tone)}>
               {stateCounts.get(state) ?? 0}
             </span>
           </div>
@@ -168,12 +168,12 @@ export function ServicesExplorer({
               <button
                 type="button"
                 onClick={() => setQuery('')}
-                className="fh-pill pointer-events-auto px-2 text-[14px] text-muted hover:bg-surface-soft hover:text-ink"
+                className="fh-pill pointer-events-auto px-2 text-muted hover:bg-surface-soft hover:text-ink"
               >
                 Clear
               </button>
             ) : (
-              <kbd className="fh-pill border border-line bg-surface-soft px-2 text-[14px] text-muted">/</kbd>
+              <kbd className="fh-pill bg-surface-soft px-2 text-muted">/</kbd>
             )}
           </span>
         </div>
@@ -182,7 +182,6 @@ export function ServicesExplorer({
           <button type="button" onClick={expandAll} className="hover:text-ink">
             Expand all
           </button>
-          <span className="h-3 w-px bg-line" aria-hidden="true" />
           <button type="button" onClick={collapseAll} className="hover:text-ink">
             Collapse all
           </button>
@@ -212,17 +211,17 @@ export function ServicesExplorer({
               <section
                 key={group.id}
                 id={`group-${group.slug}`}
-                className="scroll-mt-24 overflow-hidden fh-panel border border-line bg-surface"
+                className="scroll-mt-24 overflow-hidden fh-panel bg-surface"
               >
                 <button
                   type="button"
                   onClick={() => toggleGroup(group.id)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center gap-2 px-3.5 py-2.5 text-left transition-colors hover:bg-surface-soft"
+                  className="flex w-full items-center gap-2 px-3.5 py-2.5 text-left hover:bg-surface-soft"
                 >
                   <ChevronDownIcon
                     className={cn(
-                      'h-3.5 w-3.5 shrink-0 text-muted transition-transform duration-200',
+                      'h-3.5 w-3.5 shrink-0 text-muted',
                       !isOpen && '-rotate-90',
                     )}
                   />
@@ -240,14 +239,14 @@ export function ServicesExplorer({
                 </button>
 
                 {isOpen && (
-                  <div className="border-t border-line">
+                  <div className="">
                     {group.services.map((service) => (
                       <details
                         key={service.id}
                         id={`service-${service.slug}`}
-                        className="group scroll-mt-24 border-b border-line last:border-b-0"
+                        className="group scroll-mt-24"
                       >
-                        <summary className="grid cursor-pointer list-none grid-cols-[20px_minmax(0,1fr)_auto_auto_16px] items-center gap-x-2.5 gap-y-2.5 px-3 py-2.5 transition-colors hover:bg-surface-soft sm:px-3.5 sm:py-3 [&::-webkit-details-marker]:hidden">
+                        <summary className="grid cursor-pointer list-none grid-cols-[20px_minmax(0,1fr)_auto_auto_16px] items-center gap-x-2.5 gap-y-2.5 px-3 py-2.5 hover:bg-surface-soft sm:px-3.5 sm:py-3 [&::-webkit-details-marker]:hidden">
                           <ServiceIcon slug={service.slug} />
                           <span className="block min-w-0 truncate text-[17px] font-medium">{service.name}</span>
                           <span className="hidden shrink-0 text-[14px] text-muted sm:inline">
@@ -256,13 +255,13 @@ export function ServicesExplorer({
                               : 'No checks recorded'}
                           </span>
                           <StatusPill state={service.health.state} />
-                          <ChevronDownIcon className="h-3.5 w-3.5 -rotate-90 text-muted transition-transform group-open:rotate-0" />
+                          <ChevronDownIcon className="h-3.5 w-3.5 -rotate-90 text-muted group-open:rotate-0" />
                           <div className="col-span-full" onClick={(event) => event.preventDefault()}>
                             <UptimeBars bars={service.bars} label={service.name} />
                           </div>
                         </summary>
 
-                        <div className="border-t border-line bg-surface-soft px-3.5 py-3 md:pl-[44px]">
+                        <div className="bg-surface-soft px-3.5 py-3 md:pl-[44px]">
                           {service.description && (
                             <p className="text-[15px] leading-relaxed text-muted">{service.description}</p>
                           )}

@@ -126,7 +126,7 @@ export default async function HomePage() {
         />
       </div>
 
-      <div className="mt-7 space-y-7">
+      <div className="mt-6 space-y-6">
         <section>
           <SectionHeading title="Active incidents" href="/incidents" linkLabel="Incident log" />
           {activeIncidents.length > 0 ? (
@@ -153,7 +153,7 @@ export default async function HomePage() {
         <section>
           <SectionHeading title="Active maintenance" href="/maintenance" linkLabel="All maintenance" />
           {upcomingMaintenance.length > 0 ? (
-            <div className="overflow-hidden fh-panel border border-line bg-surface">
+            <div className="overflow-hidden fh-panel bg-surface">
               {upcomingMaintenance.map((window) => (
                 <MaintenanceRow
                   key={window.id}
@@ -173,7 +173,7 @@ export default async function HomePage() {
         {recentResolved.length > 0 && (
           <section>
             <SectionHeading title="Recently resolved" href="/history" linkLabel="Full history" />
-            <div className="overflow-hidden fh-panel border border-line bg-surface">
+            <div className="overflow-hidden fh-panel bg-surface">
               {recentResolved.map((incident) => (
                 <IncidentRow
                   key={incident.id}

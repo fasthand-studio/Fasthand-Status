@@ -18,7 +18,7 @@ export function IncidentRow({
   return (
     <Link
       href={`/incidents/${incident.id}`}
-      className="grid grid-cols-[92px_minmax(0,1fr)_auto] items-center gap-x-3 border-b border-line px-3 py-2.5 transition-colors sm:px-3.5 sm:py-3 transition-colors last:border-b-0 hover:bg-surface-soft"
+      className="grid grid-cols-[92px_minmax(0,1fr)_auto] items-center gap-x-3 px-3 py-2.5 sm:px-3.5 sm:py-3 hover:bg-surface-soft"
     >
       <time
         dateTime={incident.resolved_at ?? incident.started_at}

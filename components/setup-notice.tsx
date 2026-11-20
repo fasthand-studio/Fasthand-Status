@@ -21,7 +21,7 @@ const STEPS = [
 
 export function SetupNotice() {
   return (
-    <div className="fh-panel border border-line bg-surface p-4 sm:p-5">
+    <div className="fh-panel bg-surface p-4 sm:p-5">
       <h2 className="text-[18px] font-semibold">Connect the monitoring stack</h2>
       <p className="mt-1 max-w-2xl text-[15px] leading-relaxed text-muted">
         This page does not invent uptime. Until the database and the five-minute check runner are
@@ -29,7 +29,7 @@ export function SetupNotice() {
       </p>
       <ol className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
         {STEPS.map((step, index) => (
-          <li key={step.title} className="flex gap-2.5 border-t border-line pt-2.5">
+          <li key={step.title} className="flex gap-2.5 pt-2.5">
             <span className="fh-num mt-px text-[14px] font-semibold text-muted">
               {String(index + 1).padStart(2, '0')}
             </span>

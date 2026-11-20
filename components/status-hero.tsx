@@ -44,8 +44,8 @@ export function StatusHero({
   const tone = TONE[overall.tone];
 
   return (
-    <section className="fh-panel border border-line bg-surface-soft">
-      <div className="px-4 py-7 text-center sm:px-6">
+    <section className="fh-panel bg-surface">
+      <div className="px-4 py-5 text-center sm:px-6 sm:py-7">
         <StatusIcon tone={overall.tone} className={cn('mx-auto h-7 w-7', tone)} />
         <h2 className="mt-2.5 text-[20px] font-semibold leading-tight tracking-[-0.01em]">
           {overall.label}
@@ -60,7 +60,7 @@ export function StatusHero({
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 border-t border-line px-4 py-2 text-[14px] text-muted sm:px-5">
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 bg-surface-soft px-4 py-2 text-[14px] text-muted sm:px-5">
         <Fact label="Monitored" value={`${overall.monitoredCount} / ${overall.totalServices}`} />
         <Fact label="Fresh" value={`${overall.freshCount} / ${overall.monitoredCount}`} />
         <Fact label="Stale" value={overall.staleCount} />

@@ -132,7 +132,7 @@ export function IncidentComposer({
         hint="This becomes the opening entry in the public timeline. Markdown is supported; raw HTML is shown as text."
       />
 
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4">
         <p className="text-[15px] text-muted">
           Resolved incidents still appear under{' '}
           <Link href="/history" className={linkClass}>

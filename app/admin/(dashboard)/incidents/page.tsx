@@ -86,7 +86,7 @@ export default async function AdminIncidentsPage({
                   {incident.incident_services.length} affected service
                   {incident.incident_services.length === 1 ? '' : 's'}
                 </p>
-                <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3">
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-2 pt-3">
                   <Link href={`/admin/incidents/${incident.id}`} className={`${linkClass} text-[15px]`}>
                     Open incident
                   </Link>
@@ -115,7 +115,7 @@ export default async function AdminIncidentsPage({
           <div className={`${adminCardClass} overflow-x-auto`}>
             <table className="w-full min-w-[800px] text-left text-[15px]">
               <thead>
-                <tr className="border-b border-line font-sans text-[14px] text-muted">
+                <tr className="font-sans text-[14px] text-muted">
                   <th className="px-3 py-2 font-medium">Incident</th>
                   <th className="px-3 py-2 font-medium">Impact</th>
                   <th className="px-3 py-2 font-medium">Started</th>
@@ -124,9 +124,9 @@ export default async function AdminIncidentsPage({
                   <th className="px-3 py-2" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line">
+              <tbody className="">
                 {resolved.map((incident) => (
-                  <tr key={incident.id} className="transition hover:bg-ink/[0.03]">
+                  <tr key={incident.id} className="transition-colors hover:bg-surface-soft">
                     <td className="px-3 py-2 font-medium text-ink/85">{incident.title}</td>
                     <td className="px-3 py-2">
                       <AdminImpactBadge impact={incident.impact} />

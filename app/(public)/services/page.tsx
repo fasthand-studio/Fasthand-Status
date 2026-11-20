@@ -138,7 +138,7 @@ export default async function ServicesPage() {
       </div>
 
       {overall.staleCount > 0 && (
-        <div className="mt-3 flex items-start gap-2 fh-r-sm border border-warn/30 bg-warn-soft/60 px-3 py-2 text-[14px] text-ink/80">
+        <div className="mt-3 flex items-start gap-2 fh-r-sm bg-warn-soft px-3 py-2 text-[14px] text-ink/80">
           <AlertIcon className="mt-px h-3.5 w-3.5 shrink-0 text-warn" />
           <p>
             {overall.staleCount} monitored service{overall.staleCount === 1 ? ' has' : 's have'} missed

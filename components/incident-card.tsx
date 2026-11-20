@@ -19,7 +19,7 @@ export function IncidentCard({
   const duration = Math.max(0, (end.getTime() - new Date(incident.started_at).getTime()) / 1000);
 
   return (
-    <article className="fh-card border border-line bg-surface px-4 py-3 transition-colors hover:border-line-strong">
+    <article className="fh-card bg-surface px-4 py-3">
       <h3 className="text-[17px] font-semibold leading-snug">
         <Link href={`/incidents/${incident.id}`} className="hover:text-primary">
           {incident.title}
@@ -48,7 +48,7 @@ export function IncidentCard({
           {affectedServices.map((name) => (
             <span
               key={name}
-              className="fh-pill border border-line bg-surface text-muted"
+              className="fh-pill bg-surface-soft text-muted"
             >
               {name}
             </span>
@@ -56,7 +56,7 @@ export function IncidentCard({
         </div>
       )}
 
-      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-2 text-[14px] text-muted">
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 pt-2 text-[14px] text-muted">
         <span className="fh-num">
           {open ? (
             <>Ongoing for {formatDuration(duration)}</>

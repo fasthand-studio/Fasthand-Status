@@ -55,7 +55,7 @@ export function MarkdownField({
         <div
           role="tablist"
           aria-label="Editor mode"
-          className="inline-flex fh-r-sm border border-line bg-paper p-0.5"
+          className="inline-flex fh-r-sm bg-surface-soft p-0.5"
         >
           {(['write', 'preview'] as const).map((mode) => (
             <button
@@ -86,7 +86,7 @@ export function MarkdownField({
       />
 
       {tab === 'preview' ? (
-        <div className="min-h-[7rem] fh-r-sm border border-line bg-paper px-3 py-2">
+        <div className="min-h-[7rem] fh-r-sm bg-surface-soft px-3 py-2">
           {current.trim() ? (
             <Markdown>{current}</Markdown>
           ) : (

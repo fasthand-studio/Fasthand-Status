@@ -48,7 +48,7 @@ export function ServiceCheckboxes({
 
   if (services.length === 0) {
     return (
-      <div className="fh-r-sm border border-dashed border-line px-3 py-2 text-[14px] text-muted">
+      <div className="fh-r-sm bg-surface-soft px-3 py-2 text-[14px] text-muted">
         No services exist yet. Create a service first, then link it here.
       </div>
     );
@@ -67,21 +67,21 @@ export function ServiceCheckboxes({
           <button
             type="button"
             onClick={() => setAll(services.map((service) => service.id))}
-            className="fh-btn px-2 text-muted transition-colors hover:bg-ink/5 hover:text-ink"
+            className="fh-btn text-muted transition-opacity hover:opacity-70"
           >
             All
           </button>
           <button
             type="button"
             onClick={() => setAll([])}
-            className="fh-btn px-2 text-muted transition-colors hover:bg-ink/5 hover:text-ink"
+            className="fh-btn text-muted transition-opacity hover:opacity-70"
           >
             None
           </button>
         </div>
       </div>
 
-      <div className="grid gap-3 fh-r-sm border border-line bg-paper p-3 sm:grid-cols-2">
+      <div className="grid gap-3 fh-r-sm bg-surface-soft p-3 sm:grid-cols-2">
         {[...grouped.entries()].map(([groupName, groupServices]) => (
           <div key={groupName || 'ungrouped'} className="min-w-0">
             {groupName ? (
@@ -96,8 +96,8 @@ export function ServiceCheckboxes({
                   <label
                     key={service.id}
                     className={cn(
-                      'fh-pill-lg w-full cursor-pointer justify-start gap-2.5 px-3 text-[15px] transition',
-                      checked ? 'bg-primary/10 text-ink' : 'text-muted hover:bg-ink/5',
+                      'fh-pill-lg w-full cursor-pointer justify-start gap-2.5 px-3',
+                      checked ? 'bg-primary/10 text-ink' : 'text-muted hover:bg-surface-soft',
                     )}
                   >
                     <input

@@ -24,7 +24,7 @@ const TONE_TEXT = {
   empty: 'text-muted',
 } as const;
 
-const MAX_INCIDENT_ROWS = 3;
+const MAX_INCIDENT_ROWS = 4;
 const MOBILE_BARS = 30;
 
 const ANCHOR_CLASS = {
@@ -95,7 +95,7 @@ function BarRow({ bars, label }: { bars: DailyBar[]; label: string }) {
       {tip && (
         <div
           className={cn(
-            'fixed z-50 -translate-y-full w-max max-w-[min(340px,calc(100vw-16px))] break-words fh-r-sm border border-line bg-surface px-2 py-1.5 text-[14px] leading-snug text-ink',
+            'fixed z-50 -translate-y-full w-max max-w-[min(340px,calc(100vw-16px))] break-words fh-r-sm bg-surface px-2 py-1.5 text-[14px] leading-snug text-ink',
             ANCHOR_CLASS[tip.align],
             tip.bar.incidents.length > 0 ? 'pointer-events-auto' : 'pointer-events-none',
           )}
@@ -108,7 +108,7 @@ function BarRow({ bars, label }: { bars: DailyBar[]; label: string }) {
             {tip.bar.percent !== null && ` · ${formatUptime(tip.bar.percent)} uptime`}
           </span>
           {tip.bar.incidents.length > 0 && (
-            <span className="mt-1.5 block border-t border-line pt-1.5">
+            <span className="mt-1.5 block pt-1.5">
               {tip.bar.incidents.slice(0, MAX_INCIDENT_ROWS).map((incident) => (
                 <button
                   type="button"
@@ -163,7 +163,7 @@ function BarRow({ bars, label }: { bars: DailyBar[]; label: string }) {
               onFocus={(event) => showTip(index, event.currentTarget)}
               onClick={openIncident(primary)}
               aria-label={`${formatDayLabel(bar.day)}: ${primary.title}. Open incident details.`}
-              className={cn(shared, 'cursor-pointer appearance-none border-0 p-0 text-left')}
+              className={cn(shared, 'cursor-pointer appearance-none p-0 text-left')}
             />
           );
         })}

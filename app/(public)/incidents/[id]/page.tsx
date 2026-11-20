@@ -105,7 +105,6 @@ export default async function IncidentDetailPage({ params }: { params: Promise<P
 
       <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[14px] text-muted">
         <span className="fh-num">Started {formatDateTime(incident.started_at)}</span>
-        <span className="h-3 w-px bg-line" aria-hidden="true" />
         <span className="fh-num">
           {incident.resolved_at
             ? `Resolved ${formatDateTime(incident.resolved_at)} · lasted ${formatDuration(duration)}`
@@ -113,7 +112,6 @@ export default async function IncidentDetailPage({ params }: { params: Promise<P
         </span>
         {affected.length > 0 && (
           <>
-            <span className="h-3 w-px bg-line" aria-hidden="true" />
             <span className="inline-flex items-center gap-1">
               <LinkIcon className="h-3.5 w-3.5" />
               {affected.length} affected service{affected.length === 1 ? '' : 's'}
@@ -128,7 +126,7 @@ export default async function IncidentDetailPage({ params }: { params: Promise<P
             <Link
               key={service.id}
               href={`/services#service-${service.slug}`}
-              className="fh-pill border border-line bg-surface text-muted transition-colors hover:border-line-strong hover:text-ink"
+              className="fh-pill bg-surface-soft text-muted transition-opacity hover:opacity-85"
             >
               {service.name}
             </Link>
@@ -137,7 +135,7 @@ export default async function IncidentDetailPage({ params }: { params: Promise<P
       )}
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1.7fr)_minmax(240px,0.8fr)]">
-        <section className="fh-panel border border-line bg-surface p-4">
+        <section className="fh-panel bg-surface p-4">
           <div className="flex items-center gap-2">
             <h2 className="text-[17px] font-semibold">Timeline</h2>
             <span className="fh-num text-[14px] text-muted">{incident.incident_updates.length}</span>
@@ -148,7 +146,7 @@ export default async function IncidentDetailPage({ params }: { params: Promise<P
         </section>
 
         <aside className="space-y-3">
-          <div className="fh-panel border border-line bg-surface p-4">
+          <div className="fh-panel bg-surface p-4">
             <h2 className="text-[14px] font-semibold uppercase tracking-wide text-muted">Summary</h2>
             <dl className="mt-2.5 text-[15px]">
               <SummaryRow label="Status" value={<IncidentStatusBadge status={incident.status} size="sm" />} />
@@ -163,8 +161,8 @@ export default async function IncidentDetailPage({ params }: { params: Promise<P
           <div
             className={
               incident.resolved_at
-                ? 'fh-panel border border-ok/25 bg-ok-soft/50 p-4'
-                : 'fh-panel border border-warn/30 bg-warn-soft/50 p-4'
+                ? 'fh-panel bg-ok-soft p-4'
+                : 'fh-panel bg-warn-soft p-4'
             }
           >
             <p className="text-[15px] font-medium">
@@ -196,7 +194,7 @@ function PageBack() {
 
 function SummaryRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="flex items-start justify-between gap-3 border-b border-line py-1.5 last:border-0 last:pb-0">
+    <div className="flex items-start justify-between gap-3 py-1.5 last:pb-0">
       <dt className="shrink-0 text-muted">{label}</dt>
       <dd className="text-right text-ink/85">{value}</dd>
     </div>

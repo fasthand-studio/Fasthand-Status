@@ -7,6 +7,7 @@ import {
   adminCardClass,
   adminInputClass,
   adminSelectClass,
+  adminTextareaClass,
   Field,
   linkClass,
   Notice,
@@ -112,7 +113,7 @@ export function ServiceForm({
           rows={3}
           defaultValue={service?.description ?? ''}
           maxLength={400}
-          className={adminInputClass}
+          className={adminTextareaClass}
         />
       </Field>
 
@@ -126,7 +127,7 @@ export function ServiceForm({
             className={adminInputClass}
           />
         </Field>
-        <label className="flex items-center gap-3 fh-r-sm border border-line bg-paper px-3 py-2 text-[14px] text-ink/85">
+        <label className="flex items-center gap-3 fh-r-sm bg-surface-soft px-3 py-2 text-[14px] text-ink/85">
           <input
             type="checkbox"
             name="is_public"
@@ -137,7 +138,7 @@ export function ServiceForm({
         </label>
       </div>
 
-      <div className="flex justify-end border-t border-line pt-4">
+      <div className="flex justify-end pt-4">
         <SubmitButton pendingLabel="Saving…">{submitLabel}</SubmitButton>
       </div>
     </ActionForm>

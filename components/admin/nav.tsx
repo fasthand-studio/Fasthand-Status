@@ -28,7 +28,7 @@ export function AdminNav() {
             href={item.href}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'fh-pill-lg shrink-0 justify-start px-3 transition-colors lg:w-full',
+              'fh-pill-lg shrink-0 justify-start px-3 lg:w-full',
               active
                 ? 'bg-primary/[0.07] font-medium text-primary'
                 : 'text-muted hover:bg-surface-soft hover:text-ink',

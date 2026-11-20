@@ -179,7 +179,7 @@ export default async function HistoryPage({
       />
 
       {events.length === 0 ? (
-        <div className="mt-5 fh-card border border-line bg-surface px-3.5 py-2.5 text-[15px] text-muted">
+        <div className="mt-5 fh-card bg-surface px-3.5 py-2.5 text-[15px] text-muted">
           <span className="font-medium text-ink">Nothing archived yet.</span> Resolved incidents and
           maintenance windows appear here once they happen.
         </div>
@@ -199,7 +199,7 @@ export default async function HistoryPage({
               />
               <button
                 type="submit"
-                className="fh-pill absolute right-1 top-1/2 -translate-y-1/2 px-2 text-[14px] font-medium text-muted hover:bg-surface-soft hover:text-ink"
+                className="fh-pill absolute right-1 top-1/2 -translate-y-1/2 px-2 font-medium text-muted hover:bg-surface-soft hover:text-ink"
               >
                 Search
               </button>
@@ -215,10 +215,10 @@ export default async function HistoryPage({
                     href={hrefFor(option.value, query)}
                     aria-current={active ? 'page' : undefined}
                     className={cn(
-                      'fh-pill-lg gap-2 border px-3 transition-colors',
+                      'fh-pill-lg gap-2 px-3',
                       active
-                        ? 'border-primary bg-primary font-medium text-white'
-                        : 'border-line bg-surface text-muted hover:border-line-strong hover:text-ink',
+                        ? 'bg-primary font-medium text-white'
+                        : 'bg-surface-soft text-muted transition-opacity hover:opacity-85 hover:text-ink',
                     )}
                   >
                     {option.label}
@@ -246,7 +246,7 @@ export default async function HistoryPage({
           </p>
 
           {visible.length === 0 ? (
-            <div className="mt-3 fh-card border border-line bg-surface px-3.5 py-2.5 text-[15px] text-muted">
+            <div className="mt-3 fh-card bg-surface px-3.5 py-2.5 text-[15px] text-muted">
               <span className="font-medium text-ink">No events match.</span> Try a different search or
               filter.
             </div>
@@ -262,7 +262,7 @@ export default async function HistoryPage({
                       {monthEvents.length} event{monthEvents.length === 1 ? '' : 's'}
                     </span>
                   </div>
-                  <div className="overflow-hidden fh-panel border border-line bg-surface">
+                  <div className="overflow-hidden fh-panel bg-surface">
                     {monthEvents.map((event) =>
                       event.kind === 'incident' ? (
                         <IncidentHistoryRow
@@ -334,7 +334,7 @@ function IncidentHistoryRow({
   return (
     <Link
       href={`/incidents/${incident.id}`}
-      className={cn(ROW_GRID, 'border-b border-line transition-colors last:border-b-0 hover:bg-surface-soft')}
+      className={cn(ROW_GRID, 'hover:bg-surface-soft')}
     >
       <EventTime iso={incident.resolved_at ?? incident.started_at} />
       <EventTitle title={incident.title} affected={affected} kind="Incident" />
@@ -356,11 +356,11 @@ function MaintenanceHistoryRow({
   const phase = maintenancePhase(window, new Date());
 
   return (
-    <details className="group border-b border-line last:border-b-0">
+    <details className="group">
       <summary
         className={cn(
           ROW_GRID,
-          'cursor-pointer list-none transition-colors hover:bg-surface-soft [&::-webkit-details-marker]:hidden',
+          'cursor-pointer list-none hover:bg-surface-soft [&::-webkit-details-marker]:hidden',
         )}
       >
         <EventTime iso={window.scheduled_start} />
@@ -379,10 +379,10 @@ function MaintenanceHistoryRow({
           <span className={cn('fh-pill font-medium', MAINTENANCE_PHASE_TONE[phase.key])}>{phase.label}</span>
         </span>
         <span className="flex items-center justify-self-end text-muted">
-          <ChevronDownIcon className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
+          <ChevronDownIcon className="h-3.5 w-3.5 group-open:rotate-180" />
         </span>
       </summary>
-      <div className="border-t border-line bg-surface-soft px-3.5 py-3 sm:pl-[102px]">
+      <div className="bg-surface-soft px-3.5 py-3 sm:pl-[102px]">
         <p className="fh-num text-[14px] text-muted">
           {formatWindowShort(window.scheduled_start, window.scheduled_end)} · Recorded{' '}
           {formatDateTime(window.created_at)}

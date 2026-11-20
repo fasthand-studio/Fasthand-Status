@@ -4,22 +4,24 @@
   --color-ink: #15191f;
   --color-ink-soft: #2b3138;
   --color-ink-line: #3d444d;
-  --color-paper: #ffffff;
+  /* Rule 6/10: soft, creamy neutrals. Depth comes from surface fills, never borders. */
+  --color-paper: #f7f5f0;
   --color-surface: #ffffff;
-  --color-surface-soft: #f6f7f9;
-  --color-line: #e1e4e8;
-  --color-line-strong: #cbd1d8;
-  --color-muted: #5a6470;
+  --color-surface-soft: #eeeae2;
+  /* Rule 25: line tokens exist only for text-field outlines. */
+  --color-line: #d8d2c7;
+  --color-line-strong: #b9b1a3;
+  --color-muted: #5f646b;
   --color-primary: #5200fe;
   --color-primary-deep: #3b00b8;
   --color-ok: #137a3f;
-  --color-ok-soft: #e8f5ec;
-  --color-warn: #8a5a00;
-  --color-warn-soft: #fdf3dd;
+  --color-ok-soft: #e7f3ea;
+  --color-warn: #9a5a00;
+  --color-warn-soft: #faf0dc;
   --color-bad: #b3261e;
-  --color-bad-soft: #fcebe9;
-  --color-info: #42526b;
-  --color-info-soft: #eef1f5;
+  --color-bad-soft: #faeae7;
+  --color-info: #1a56b0;
+  --color-info-soft: #e7effb;
 
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
@@ -129,11 +131,11 @@
     font-weight: 600;
     line-height: 1;
     white-space: nowrap;
+    /* Rule 7/15: instant, restrained feedback only. */
     transition:
-      opacity 0.12s ease,
-      background-color 0.12s ease,
-      color 0.12s ease,
-      border-color 0.12s ease;
+      opacity 0.1s ease,
+      background-color 0.1s ease,
+      color 0.1s ease;
   }
 
   .fh-btn:active,
